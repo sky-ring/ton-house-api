@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
-import DatabaseModule from 'src/db/database.module';
+import { MongooseModule } from '@nestjs/mongoose';
 import TransactionsController from './transactions.controller';
+import BlockTransactionsSchema from './transactions.model';
 import TransactionsProvider from './transactions.service';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'BlockTransactions', schema: BlockTransactionsSchema },
+    ]),
+  ],
   providers: [TransactionsProvider],
   controllers: [TransactionsController],
 })

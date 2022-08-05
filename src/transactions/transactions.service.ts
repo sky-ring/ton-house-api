@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import DatabaseProvider from 'src/db/database.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { BlockTransactionT } from './transactions.model';
 
 @Injectable()
 export default class TransactionsProvider {
-  constructor(private readonly db: DatabaseProvider) {}
+  constructor(
+    @InjectModel('BlockTransactions')
+    private readonly transactions: Model<BlockTransactionT>,
+  ) {}
 
   async getTransactions(last = 10) {
-    const query = `SELECT * FROM ${this.db.KEYSPACE}.block_transactions LIMIT ${last}`;
-    const res = await this.db.execute(query);
-    return res.rows;
+    return this.transactions.find().sort({ created: -1 }).limit(last);
   }
 }

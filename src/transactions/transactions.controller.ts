@@ -5,7 +5,7 @@ import TransactionsProvider from './transactions.service';
 export default class TransactionsController {
   constructor(private readonly provider: TransactionsProvider) {}
 
-  @Get()
+  @Get('recent')
   recentTransactions() {
     return this.provider.getTransactions();
   }
