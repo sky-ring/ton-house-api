@@ -15,7 +15,7 @@ const BlockTransactionsSchema = new mongoose.Schema<BlockTransactionT>({
     required: true,
     unique: true,
   },
-  created: Date,
+  created: Number,
 });
 
 export default BlockTransactionsSchema;

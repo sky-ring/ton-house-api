@@ -11,6 +11,28 @@ export default class TransactionsProvider {
   ) {}
 
   async getTransactions(last = 10) {
-    return this.transactions.find().sort({ created: -1 }).limit(last);
+    return this.transactions.find().sort({ $natural: -1 }).limit(last);
+  }
+
+  async findByHash(hash: string) {
+    return this.transactions.findOne({ hash }).sort({ $natural: -1 });
+  }
+
+  async findByAccount(account: string) {
+    return this.transactions.find({ account }).sort({ $natural: -1 });
+  }
+
+  async findInTimeRange(from: number, to?: number) {
+    if (to === undefined) {
+      to = Date.now();
+    }
+    return this.transactions
+      .find({
+        created: {
+          $gte: from,
+          $lte: to,
+        },
+      })
+      .sort({ $natural: -1 });
   }
 }
