@@ -9,6 +9,10 @@ import type { BlockTransactionT } from 'src/transactions/transactions.model';
 
 @WebSocketGateway({
   namespace: 'transactions',
+  cors: {
+    origin: [process.env.SOCKET_ORIGIN],
+    methods: ['GET', 'POST'],
+  },
 })
 export default class TransactionsGateway implements OnGatewayInit {
   constructor(private readonly consumer: ConsumerService) {}
