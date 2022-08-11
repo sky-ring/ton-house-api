@@ -4,6 +4,7 @@ import TransactionsModule from './transactions/transactions.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import SocketModule from './socket/socket.module';
+import ValidatorsModule from './validators/validators.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import SocketModule from './socket/socket.module';
       authSource: 'admin',
     }),
     TransactionsModule,
+    ValidatorsModule,
     SocketModule,
   ],
   controllers: [AppController],
