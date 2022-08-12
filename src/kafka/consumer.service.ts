@@ -1,4 +1,5 @@
 import { Injectable, OnApplicationShutdown } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import {
   Consumer,
   ConsumerRunConfig,
@@ -16,7 +17,7 @@ export default class ConsumerService implements OnApplicationShutdown {
 
   async consume(topic: ConsumerSubscribeTopics, config: ConsumerRunConfig) {
     const consumer = this.kafka.consumer({
-      groupId: 'ton-status-api',
+      groupId: randomUUID(),
     });
     await consumer.connect();
     await consumer.subscribe(topic);
