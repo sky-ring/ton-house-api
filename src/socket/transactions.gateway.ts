@@ -10,7 +10,7 @@ import type { BlockTransactionT } from 'src/transactions/transactions.model';
 @WebSocketGateway({
   namespace: 'transactions',
   cors: {
-    origin: [process.env.SOCKET_ORIGIN],
+    origin: ['http://localhost:3000'],
     methods: ['GET', 'POST'],
   },
 })

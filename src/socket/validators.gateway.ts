@@ -5,12 +5,12 @@ import {
 } from '@nestjs/websockets';
 import { Socket } from 'net';
 import ConsumerService from 'src/kafka/consumer.service';
-import { ValidatorsInfoT } from 'src/validators/models/validatorInfo.model';
+import type { ValidatorsInfoT } from 'src/validators/models/validatorInfo.model';
 
 @WebSocketGateway({
   namespace: 'validators',
   cors: {
-    origin: [process.env.SOCKET_ORIGIN],
+    origin: ['http://localhost:3000'],
     methods: ['GET', 'POST'],
   },
 })
