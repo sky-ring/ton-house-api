@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ValidatorsInfoT } from './models/validatorInfo.model';
+import { ValidatorsInfoT } from './models/validator.model';
 
 @Injectable()
 export default class ValidatorsProvider {
@@ -11,6 +11,10 @@ export default class ValidatorsProvider {
   ) {}
 
   async getLast(last = 100) {
-    return this.validatorsInfo.find().sort({ $natural: -1 }).limit(last);
+    return this.validatorsInfo
+      .find()
+      .sort({ $natural: -1 })
+      .limit(last)
+      .select('-validators');
   }
 }
