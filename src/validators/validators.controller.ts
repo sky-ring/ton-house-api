@@ -6,7 +6,7 @@ export default class ValidatorsController {
   constructor(private readonly provider: ValidatorsProvider) {}
 
   @Get('')
-  recentTransactions(@Query('count') count = 100) {
+  recentTransactions(@Query('count') count: number) {
     return this.provider.getLast(count);
   }
 }
