@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ValidatorsInfoT } from './models/validator.model';
+import { ValidatorsInfoT } from './validators.model';
 
 @Injectable()
 export default class ValidatorsProvider {

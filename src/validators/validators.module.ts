@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import ValidatorsInfoSchema from './models/validator.model';
+import ValidatorsInfoSchema from './validators.model';
 import ValidatorsController from './validators.controller';
 import ValidatorsProvider from './validators.service';
 

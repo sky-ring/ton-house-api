@@ -5,7 +5,7 @@ import {
 } from '@nestjs/websockets';
 import { Socket } from 'net';
 import ConsumerService from 'src/kafka/consumer.service';
-import type { ValidatorsInfoT } from 'src/validators/models/validator.model';
+import type { ValidatorsInfoT } from 'src/validators/validators.model';
 
 @WebSocketGateway({
   namespace: 'validators',
