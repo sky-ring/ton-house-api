@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import SocketModule from './socket/socket.module';
 import ValidatorsModule from './validators/validators.module';
+import BlocksModule from './blocks/blocks.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import ValidatorsModule from './validators/validators.module';
     }),
     TransactionsModule,
     ValidatorsModule,
+    BlocksModule,
     SocketModule,
   ],
   controllers: [AppController],
