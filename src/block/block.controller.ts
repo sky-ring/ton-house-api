@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { BlockService } from './block.service';
+import { FindBlocksRequest } from './request';
 
 @Controller(BlockController.path)
 export class BlockController {
@@ -8,7 +9,7 @@ export class BlockController {
   constructor(private readonly blockService: BlockService) {}
 
   @Get()
-  findAll(@Query('limit') limit?: number) {
-    return this.blockService.findAll(limit);
+  findAll(@Query() findBlocksRequest: FindBlocksRequest) {
+    return this.blockService.findAll(findBlocksRequest);
   }
 }

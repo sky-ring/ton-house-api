@@ -10,9 +10,16 @@ export class TransactionRepository {
     private readonly transactions: Collection<Transaction>,
   ) {}
 
-  async findAll(limit = 10): Promise<Transaction[]> {
+  async findAll(limit: number): Promise<Transaction[]> {
     return this.transactions
-      .aggregate<Transaction>([{ ...(limit && { $limit: limit }) }])
+      .aggregate<Transaction>([
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+        ...(limit ? [{ $limit: limit }] : []),
+      ])
       .toArray();
   }
 
@@ -22,5 +29,18 @@ export class TransactionRepository {
 
   async findByAccount(account: string): Promise<Transaction[]> {
     return this.transactions.find<Transaction>({ account: account }).toArray();
+  }
+
+  async create(transaction: Transaction): Promise<Transaction> {
+    const createdTransaction = (await this.transactions.insertOne(transaction))
+      .insertedId;
+    return this.transactions.findOne({ _id: createdTransaction });
+  }
+
+  async createMany(transactions: Transaction[]): Promise<Transaction[]> {
+    const createdTransactions = (
+      await this.transactions.insertMany(transactions)
+    ).insertedIds;
+    return this.transactions.find({ _id: createdTransactions }).toArray();
   }
 }

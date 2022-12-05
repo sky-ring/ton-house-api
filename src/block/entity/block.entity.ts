@@ -14,14 +14,13 @@ export class Block {
 
   fileHash: string;
 
-  transactionsCount: number;
-
   transactions: ObjectId[] | Transaction[];
 
   createdAt: Date;
 
-  constructor(data: Partial<Block>) {
+  constructor(data?: Partial<Block>) {
     this.createdAt = new Date();
+    this.transactions = [];
     if (data) {
       Object.assign(this, data);
     }

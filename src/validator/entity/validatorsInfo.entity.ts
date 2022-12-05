@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { Validator } from './validator.entity';
 
 export class ValidatorsInfo {
@@ -11,11 +12,11 @@ export class ValidatorsInfo {
 
   totalWeight: string;
 
-  validators: Validator[];
+  validators: Validator[] | ObjectId[];
 
   createdAt: Date;
 
-  constructor(data: Partial<ValidatorsInfo>) {
+  constructor(data?: Partial<ValidatorsInfo>) {
     this.createdAt = new Date();
     if (data) {
       Object.assign(this, data);

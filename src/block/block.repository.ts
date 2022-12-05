@@ -10,15 +10,30 @@ export class BlockRepository {
     private readonly blocks: Collection<Block>,
   ) {}
 
-  async findAll(limit = 20): Promise<Block[]> {
+  async findAll(limit: number): Promise<Block[]> {
     return this.blocks
       .aggregate<Block>([
         {
-          ...(limit && {
-            $limit: limit,
-          }),
+          $sort: {
+            createdAt: -1,
+          },
         },
+        ...(limit ? [{ $limit: limit }] : []),
       ])
       .toArray();
+  }
+
+  async findByHash(rootHash: string, fileHash: string): Promise<Block> {
+    return this.blocks.findOne({ rootHash: rootHash, fileHash: fileHash });
+  }
+
+  async create(block: Block): Promise<Block> {
+    const createdBlock = (await this.blocks.insertOne(block)).insertedId;
+    return this.blocks.findOne({ _id: createdBlock });
+  }
+
+  async createMany(blocks: Block[]): Promise<Block[]> {
+    const createdBlocks = (await this.blocks.insertMany(blocks)).insertedIds;
+    return this.blocks.find({ _id: createdBlocks }).toArray();
   }
 }

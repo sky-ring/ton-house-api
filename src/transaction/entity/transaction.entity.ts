@@ -11,7 +11,7 @@ export class Transaction {
 
   createdAt: Date;
 
-  constructor(data: Partial<Transaction>) {
+  constructor(data?: Partial<Transaction>) {
     this.createdAt = new Date();
     if (data) {
       Object.assign(this, data);

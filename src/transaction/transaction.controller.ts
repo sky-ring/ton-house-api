@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
+import { FindTransactionsRequest } from './request';
 import { TransactionService } from './transaction.service';
 
 @Controller(TransactionController.path)
@@ -8,8 +9,8 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Get()
-  findAll(@Query('limit') limit = 10) {
-    return this.transactionService.findAll(limit);
+  findAll(@Query() findTransactionsRequest: FindTransactionsRequest) {
+    return this.transactionService.findAll(findTransactionsRequest);
   }
 
   @Get(':hash')

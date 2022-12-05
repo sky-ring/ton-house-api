@@ -4,9 +4,10 @@ import { Block } from './entity';
 import { BlockService } from './block.service';
 import { BlockRepository } from './block.repository';
 import { MongoModule } from 'nest-mongodb';
+import { TonModule } from '../ton/ton.module';
 
 @Module({
-  imports: [MongoModule.forFeature([Block.name])],
+  imports: [MongoModule.forFeature([Block.name]), TonModule],
   providers: [BlockService, BlockRepository],
   controllers: [BlockController],
 })
