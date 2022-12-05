@@ -1,25 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import TransactionsModule from './transactions/transactions.module';
+import { TransactionModule } from './transaction/transaction.module';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import SocketModule from './socket/socket.module';
-import ValidatorsModule from './validators/validators.module';
-import BlocksModule from './blocks/blocks.module';
+import { ValidatorModule } from './validator/validator.module';
+import { BlockModule } from './block/block.module';
+import { MongoModule } from 'nest-mongodb';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env['DB_CONNECTION'], {
-      directConnection: true,
-      authSource: 'admin',
-    }),
-    TransactionsModule,
-    ValidatorsModule,
-    BlocksModule,
-    SocketModule,
+    MongoModule.forRoot(process.env.DATABASE_URI, process.env.DATABASE_NAME),
+    TransactionModule,
+    ValidatorModule,
+    BlockModule,
   ],
-  controllers: [AppController],
-  providers: [],
 })
 export class AppModule {}
