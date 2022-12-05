@@ -33,6 +33,6 @@ export class BlockService {
 
     const createdBlock = await this.blockRepository.create(latestBlock);
     this.eventEmitter.emit(BlockEvents.BlockCollected, createdBlock);
-    // TODO: emit event using socket
+    this.eventEmitter.emit(BlockEvents.BlockInserted, createdBlock);
   }
 }

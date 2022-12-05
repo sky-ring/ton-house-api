@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Cron } from '@nestjs/schedule';
-import { TonService } from 'src/ton/ton.service';
+import { TonService } from '../ton/ton.service';
 import { Validator } from './entity';
+import { ValidatorEvents } from './enum';
 import { FindValidatorsRequest } from './request';
 import { ValidatorRepistory } from './validator.repository';
 
@@ -10,6 +12,7 @@ export class ValidatorService {
   constructor(
     private readonly validatorRepistory: ValidatorRepistory,
     private readonly tonService: TonService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async findAll(findValidatorsRequest: FindValidatorsRequest) {
@@ -45,6 +48,6 @@ export class ValidatorService {
       currentInfo,
     );
 
-    // TODO: emit event using socket
+    this.eventEmitter.emit(ValidatorEvents.ValidatorsInserted, createdInfo);
   }
 }

@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { APP_PORT } from './common/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(3030);
+  await app.listen(APP_PORT);
 }
 bootstrap();

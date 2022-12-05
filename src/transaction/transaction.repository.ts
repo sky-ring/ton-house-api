@@ -38,9 +38,16 @@ export class TransactionRepository {
   }
 
   async createMany(transactions: Transaction[]): Promise<Transaction[]> {
-    const createdTransactions = (
+    const createdTransactionsIds = (
       await this.transactions.insertMany(transactions)
     ).insertedIds;
-    return this.transactions.find({ _id: createdTransactions }).toArray();
+
+    return this.transactions
+      .find({
+        _id: {
+          $in: Object.values(createdTransactionsIds),
+        },
+      })
+      .toArray();
   }
 }

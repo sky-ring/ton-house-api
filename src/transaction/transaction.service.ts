@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { TonService } from '../ton/ton.service';
 import { Block } from '../block/entity';
 import { BlockEvents } from '../block/enum';
 import { TransactionRepository } from './transaction.repository';
 import { FindTransactionsRequest } from './request';
+import { TransactionEvents } from './enum';
 
 @Injectable()
 export class TransactionService {
   constructor(
     private readonly transactionRepistory: TransactionRepository,
     private readonly tonService: TonService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async findAll(findTransactionsRequest: FindTransactionsRequest) {
@@ -39,6 +41,9 @@ export class TransactionService {
       transactions,
     );
 
-    //TODO: emit event using socket
+    this.eventEmitter.emit(
+      TransactionEvents.TransactionsInserted,
+      createdTransactions,
+    );
   }
 }
