@@ -10,6 +10,7 @@ import { TransactionService } from './transaction.service';
 @Module({
   imports: [MongoModule.forFeature([Transaction.name]), TonModule],
   providers: [TransactionService, TransactionRepository, TransactionGateway],
+  exports: [TransactionService],
   controllers: [TransactionController],
 })
 export class TransactionModule {}

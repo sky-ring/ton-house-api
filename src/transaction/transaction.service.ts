@@ -6,6 +6,7 @@ import { BlockEvents } from '../block/enum';
 import { TransactionRepository } from './transaction.repository';
 import { FindTransactionsRequest } from './request';
 import { TransactionEvents } from './enum';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class TransactionService {
@@ -27,14 +28,13 @@ export class TransactionService {
     return this.transactionRepistory.findByAccount(account);
   }
 
-  @OnEvent(BlockEvents.BlockCollected)
-  async onBlockCollected(payload: Block) {
+  async collectBlockTransactions(block: Block): Promise<ObjectId[]> {
     const transactions = await this.tonService.getTransactions({
-      sequenceNumber: payload.sequenceNumber,
-      shard: payload.shard,
-      workchain: payload.workchain,
-      fileHash: payload.fileHash,
-      rootHash: payload.rootHash,
+      sequenceNumber: block.sequenceNumber,
+      shard: block.shard,
+      workchain: block.workchain,
+      fileHash: block.fileHash,
+      rootHash: block.rootHash,
     });
 
     const createdTransactions = await this.transactionRepistory.createMany(
@@ -45,5 +45,7 @@ export class TransactionService {
       TransactionEvents.TransactionsInserted,
       createdTransactions,
     );
+
+    return createdTransactions.map((transaction) => transaction._id);
   }
 }
