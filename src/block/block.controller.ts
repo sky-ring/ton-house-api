@@ -12,4 +12,9 @@ export class BlockController {
   findAll(@Query() findBlocksRequest: FindBlocksRequest) {
     return this.blockService.findAll(findBlocksRequest);
   }
+
+  @Get('latest')
+  findLatest() {
+    return this.blockService.findLatest();
+  }
 }

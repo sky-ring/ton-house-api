@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { FindValidatorsRequest } from './request';
+import { FindValidatorsChartRequest, FindValidatorsRequest } from './request';
 import { ValidatorService } from './validator.service';
 
 @Controller(ValidatorController.path)
@@ -11,6 +11,11 @@ export class ValidatorController {
   @Get()
   findAll(@Query() findValidatorsRequest: FindValidatorsRequest) {
     return this.validatorService.findAll(findValidatorsRequest);
+  }
+
+  @Get('chart')
+  getChart(@Query() findValidatorsChartRequest: FindValidatorsChartRequest) {
+    return this.validatorService.getChart(findValidatorsChartRequest);
   }
 
   @Get('populated')

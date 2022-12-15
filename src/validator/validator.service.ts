@@ -4,7 +4,7 @@ import { Cron } from '@nestjs/schedule';
 import { TonService } from '../ton/ton.service';
 import { Validator } from './entity';
 import { ValidatorEvents } from './enum';
-import { FindValidatorsRequest } from './request';
+import { FindValidatorsRequest, FindValidatorsChartRequest } from './request';
 import { ValidatorRepistory } from './validator.repository';
 
 @Injectable()
@@ -17,6 +17,13 @@ export class ValidatorService {
 
   async findAll(findValidatorsRequest: FindValidatorsRequest) {
     return this.validatorRepistory.findAll(findValidatorsRequest.limit);
+  }
+
+  async getChart(findValidatorsChartRequest: FindValidatorsChartRequest) {
+    return this.validatorRepistory.getChart(
+      findValidatorsChartRequest.timeWindow,
+      findValidatorsChartRequest.limit,
+    );
   }
 
   async findAllPopulated(findValidatorsRequest: FindValidatorsRequest) {

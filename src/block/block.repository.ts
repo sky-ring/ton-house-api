@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { DateTime } from 'luxon';
 import { Collection } from 'mongodb';
 import { InjectCollection } from 'nest-mongodb';
 import { Block } from './entity';
@@ -10,9 +11,22 @@ export class BlockRepository {
     private readonly blocks: Collection<Block>,
   ) {}
 
-  async findAll(limit: number): Promise<Block[]> {
+  async findAll(limit: number, from: Date, to: Date): Promise<Block[]> {
+    const startDate = from
+      ? from
+      : DateTime.now().minus({ hours: 1 }).startOf('hour').toJSDate();
+    const endDate = to ? to : DateTime.now().endOf('hour').toJSDate();
+
     return this.blocks
       .aggregate<Block>([
+        {
+          $match: {
+            createdAt: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
         {
           $sort: {
             createdAt: -1,
@@ -21,6 +35,35 @@ export class BlockRepository {
         ...(limit ? [{ $limit: limit }] : []),
       ])
       .toArray();
+  }
+
+  async findLatest(): Promise<Block> {
+    const startDate = DateTime.now()
+      .minus({ hours: 1 })
+      .startOf('hour')
+      .toJSDate();
+    const endDate = DateTime.now().endOf('hour').toJSDate();
+
+    return (
+      await this.blocks
+        .aggregate<Block>([
+          {
+            $match: {
+              createdAt: {
+                $gte: startDate,
+                $lte: endDate,
+              },
+            },
+          },
+          {
+            $sort: {
+              createdAt: -1,
+            },
+          },
+          { $limit: 1 },
+        ])
+        .toArray()
+    )[0];
   }
 
   async findByHash(rootHash: string, fileHash: string): Promise<Block> {

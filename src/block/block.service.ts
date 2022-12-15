@@ -17,7 +17,15 @@ export class BlockService {
   ) {}
 
   async findAll(findBlocksRequest: FindBlocksRequest) {
-    return this.blockRepository.findAll(findBlocksRequest.limit);
+    return this.blockRepository.findAll(
+      findBlocksRequest.limit,
+      findBlocksRequest.from,
+      findBlocksRequest.to,
+    );
+  }
+
+  async findLatest() {
+    return this.blockRepository.findLatest();
   }
 
   @Cron('*/3 * * * * *')
