@@ -70,8 +70,21 @@ export class ValidatorRepistory {
   }
 
   async findAll(limit: number): Promise<ValidatorsInfo[]> {
+    const endDate = DateTime.now().endOf('hour');
+    const startDate = endDate.minus({
+      days: 30,
+    });
+
     return this.validatorsInfo
       .aggregate<ValidatorsInfo>([
+        {
+          $match: {
+            createdAt: {
+              $gte: startDate.toJSDate(),
+              $lte: endDate.toJSDate(),
+            },
+          },
+        },
         {
           $sort: {
             createdAt: -1,
@@ -82,10 +95,25 @@ export class ValidatorRepistory {
       .toArray();
   }
 
-  async findLast(): Promise<ValidatorsInfo> {
+  async findLatest(): Promise<ValidatorsInfo> {
+    const endDate = DateTime.now().endOf('day');
+    const startDate = endDate
+      .minus({
+        days: 2,
+      })
+      .startOf('day');
+
     return (
       await this.validatorsInfo
         .aggregate<ValidatorsInfo>([
+          {
+            $match: {
+              createdAt: {
+                $gte: startDate.toJSDate(),
+                $lte: endDate.toJSDate(),
+              },
+            },
+          },
           {
             $sort: {
               createdAt: -1,
@@ -100,8 +128,21 @@ export class ValidatorRepistory {
   }
 
   async findAllPopulated(limit: number): Promise<ValidatorsInfo[]> {
+    const endDate = DateTime.now().endOf('hour');
+    const startDate = endDate.minus({
+      days: 30,
+    });
+
     return this.validatorsInfo
       .aggregate<ValidatorsInfo>([
+        {
+          $match: {
+            createdAt: {
+              $gte: startDate.toJSDate(),
+              $lte: endDate.toJSDate(),
+            },
+          },
+        },
         {
           $sort: {
             createdAt: -1,
@@ -120,10 +161,25 @@ export class ValidatorRepistory {
       .toArray();
   }
 
-  async findLastPopulated(): Promise<ValidatorsInfo> {
+  async findLatestPopulated(): Promise<ValidatorsInfo> {
+    const endDate = DateTime.now().endOf('day');
+    const startDate = endDate
+      .minus({
+        days: 2,
+      })
+      .startOf('day');
+
     return (
       await this.validatorsInfo
         .aggregate<ValidatorsInfo>([
+          {
+            $match: {
+              createdAt: {
+                $gte: startDate.toJSDate(),
+                $lte: endDate.toJSDate(),
+              },
+            },
+          },
           {
             $sort: {
               createdAt: -1,

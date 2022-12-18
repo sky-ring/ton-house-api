@@ -47,3 +47,8 @@ export const parseValidators = (configCell: Cell): ValidatorsInfo => {
 
   return info;
 };
+
+export const parseAddress = (workchain: number, hash: string) => {
+  const buffer = Buffer.from(hash, 'utf-8');
+  return new Address(workchain, buffer).toS;
+};

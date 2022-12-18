@@ -12,5 +12,6 @@ import { TransactionModule } from '../transaction/transaction.module';
   imports: [MongoModule.forFeature([Block.name]), TonModule, TransactionModule],
   providers: [BlockService, BlockRepository, BlockGateway],
   controllers: [BlockController],
+  exports: [BlockService, BlockRepository],
 })
 export class BlockModule {}

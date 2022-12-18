@@ -23,13 +23,13 @@ export class ValidatorController {
     return this.validatorService.findAllPopulated(findValidatorsRequest);
   }
 
-  @Get('last')
+  @Get('latest')
   findLast() {
-    return this.validatorService.findLast();
+    return this.validatorService.findLatest();
   }
 
-  @Get('last/populated')
+  @Get('latest/populated')
   findLastPopulated() {
-    return this.validatorService.findLastPopulated();
+    return this.validatorService.findLatestPopulated();
   }
 }

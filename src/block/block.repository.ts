@@ -11,7 +11,7 @@ export class BlockRepository {
     private readonly blocks: Collection<Block>,
   ) {}
 
-  async findAll(limit: number, from: Date, to: Date): Promise<Block[]> {
+  async findAll(from: Date, to: Date, limit?: number): Promise<Block[]> {
     const startDate = from
       ? from
       : DateTime.now().minus({ hours: 1 }).startOf('hour').toJSDate();

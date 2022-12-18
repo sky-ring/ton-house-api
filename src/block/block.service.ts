@@ -18,9 +18,9 @@ export class BlockService {
 
   async findAll(findBlocksRequest: FindBlocksRequest) {
     return this.blockRepository.findAll(
-      findBlocksRequest.limit,
       findBlocksRequest.from,
       findBlocksRequest.to,
+      findBlocksRequest.limit,
     );
   }
 
@@ -31,6 +31,10 @@ export class BlockService {
   @Cron('*/3 * * * * *')
   async collectLastBlock() {
     const latestBlock = await this.tonService.getLastMasterchainBlockInfo();
+
+    if (!latestBlock) {
+      return;
+    }
 
     const exists = await this.blockRepository.findByHash(
       latestBlock.rootHash,

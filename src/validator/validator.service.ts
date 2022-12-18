@@ -32,17 +32,21 @@ export class ValidatorService {
     );
   }
 
-  async findLast() {
-    return this.validatorRepistory.findLast();
+  async findLatest() {
+    return this.validatorRepistory.findLatest();
   }
 
-  async findLastPopulated() {
-    return this.validatorRepistory.findLastPopulated();
+  async findLatestPopulated() {
+    return this.validatorRepistory.findLatestPopulated();
   }
 
-  @Cron('*/5 * * * * *')
+  @Cron('*/30 * * * * *')
   async collectLastBlock() {
     const currentInfo = await this.tonService.getCurrentValidators();
+
+    if (!currentInfo) {
+      return;
+    }
 
     const createdValidatorsIds =
       await this.validatorRepistory.createManyValidators(

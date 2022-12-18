@@ -7,6 +7,7 @@ import { MongoModule } from 'nest-mongodb';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TonModule } from './ton/ton.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { NetworkStatusModule } from './networkStatus/networkStatus.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     TransactionModule,
     ValidatorModule,
     BlockModule,
+    NetworkStatusModule,
     TonModule,
   ],
 })
