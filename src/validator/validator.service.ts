@@ -48,6 +48,17 @@ export class ValidatorService {
       return;
     }
 
+    const latestValidator = await this.findLatest();
+
+    if (
+      latestValidator !== undefined &&
+      currentInfo.timeSince === latestValidator.timeSince &&
+      currentInfo.timeUntill === latestValidator.timeUntill
+    ) {
+      // Already in DB
+      return;
+    }
+
     const createdValidatorsIds =
       await this.validatorRepistory.createManyValidators(
         currentInfo.validators as Validator[],

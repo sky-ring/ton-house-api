@@ -5,7 +5,7 @@ import { Transaction } from '../transaction/entity';
 import { Block } from '../block/entity';
 import { GetTransactionsRequest } from './request';
 import { ValidatorsInfo } from '../validator/entity';
-import { bytesToCell, parseValidators } from './helper/parser.helper';
+import { TonParser } from './helper/parser.helper';
 
 @Injectable()
 export class TonService {
@@ -47,7 +47,7 @@ export class TonService {
     const transactions: Transaction[] = data.result.transactions.map(
       (transaction: any) =>
         new Transaction({
-          account: transaction.account,
+          account: TonParser.getInstance().parseNullAdress(transaction.account),
           hash: transaction.hash,
           lt: transaction.lt,
         }),
@@ -62,8 +62,8 @@ export class TonService {
       }),
     );
 
-    const bocBytes = bytesToCell(data.result.config.bytes);
-    const deserialized = parseValidators(bocBytes);
+    const bocBytes = TonParser.bytesToCell(data.result.config.bytes);
+    const deserialized = TonParser.parseValidators(bocBytes);
 
     return deserialized;
   }
