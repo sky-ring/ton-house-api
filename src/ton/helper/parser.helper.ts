@@ -1,5 +1,5 @@
 import { Validator, ValidatorsInfo } from '../../validator/entity';
-import { Cell } from 'ton';
+import { bnToAddress, Cell } from 'ton';
 
 export class TonParser {
   private static tonParser: TonParser;
@@ -97,7 +97,6 @@ export class TonParser {
     let addressBase64 = this.stringToBase64(
       String.fromCharCode.apply(null, new Uint8Array(addressWithChecksum)),
     );
-
     addressBase64 = addressBase64.replace(/\+/g, '-').replace(/\//g, '_');
 
     return addressBase64;
@@ -123,9 +122,9 @@ export class TonParser {
       tag = s.readUint(8);
       s.readUint(32); // pubkey prefix 8e81278a
       const publicKey = s.readUint(256);
-      const weight = s.readUint(64);
+      const weight = s.readUint(64).toString();
       // address or not by tag
-      const address = tag == 0x73 ? s.readBitString(256) : null;
+      const address = tag == 0x73 ? s.readUint(256).toString(16) : null;
       return { address, publicKey, weight };
     });
 
